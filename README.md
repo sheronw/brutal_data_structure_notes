@@ -17,7 +17,7 @@
 - [Algorithm Analysis](3.algs_analysis.md)
 
 
-- [Arithmetic Expression](4.arithmetic_expression)
+- [Arithmetic Expression](4.arithmetic_expression.md)
 
 
 - Tree
