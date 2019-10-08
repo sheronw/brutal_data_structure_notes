@@ -1,35 +1,34 @@
-
-- [The List Interface](1.list.md)
-
-
-- [Stack & Queue](2.stack_and_queue.md)
+- [The List Interface](1. the List interface.md)
 
 
-- [Algorithm Analysis](3.algs_analysis.md)
+- [Stack & Queue](2. Stack & Queue.md)
 
 
-- [Arithmetic Expression](4.arithmetic_expression.md)
+- [Algorithm Analysis](3. Algorithms Analysis.md)
+
+
+- [Arithmetic Expression](4. Arithmetic expression.md)
 
 
 - Tree
 
-	- [Basic & Binary Tree](5.tree1.md)
+	- [Basic & Binary Tree](5. Tree part 1.md)
 
-	- [Binary Search Tree & AVL Tree & Red Black Tree](6.tree2.md)
+	- [Binary Search Tree & AVL Tree & Red Black Tree](6. Tree part 2.md)
 
-	- [B Tree & Trie & Huffman Tree](7.tree3.md)
-
-
-- [Priority Queue](8.priority_queue.md)
+	- [B Tree & Trie & Huffman Tree](7. Tree part 3.md)
 
 
-- [Hashing](9.hashing.md)
+- [Priority Queue](8. Priority Queue.md)
+
+
+- [Hashing](9. Hashing.md)
 
 
 - Graph
 
-	- [Basic & Representation](10.graph1.md)
+	- [Basic & Representation](10. Graph part 1.md)
 
-	- [Search & Shortest Paths](11.graph2.md)
+	- [Search & Shortest Paths](11. Graph part 2.md)
 
-	- [Minimum Spanning Tree](12.graph3.md)
+	- [Minimum Spanning Tree](12. Graph part 3.md)
