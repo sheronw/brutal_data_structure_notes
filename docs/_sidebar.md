@@ -6,31 +6,31 @@
 - [Stack & Queue](2.%20Stack%20&%20Queue.md)
 
 
-- [Algorithm Analysis](3. Algorithms Analysis.md)
+- [Algorithm Analysis](3.%20Algorithms%20Analysis.md)
 
 
-- [Arithmetic Expression](4. Arithmetic expression.md)
+- [Arithmetic Expression](4.%20Arithmetic%20expression.md)
 
 
 - Tree
 
-	- [Basic & Binary Tree](5. Tree part 1.md)
+	- [Basic & Binary Tree](5.%20Tree%20part%201.md)
 
-	- [Binary Search Tree & AVL Tree & Red Black Tree](6. Tree part 2.md)
+	- [Binary Search Tree & AVL Tree & Red Black Tree](6.%20Tree%20part%202.md)
 
-	- [B Tree & Trie & Huffman Tree](7. Tree part 3.md)
-
-
-- [Priority Queue](8. Priority Queue.md)
+	- [B Tree & Trie & Huffman Tree](7.%20Tree%20part%203.md)
 
 
-- [Hashing](9. Hashing.md)
+- [Priority Queue](8.%20Priority%20Queue.md)
+
+
+- [Hashing](9.%20Hashing.md)
 
 
 - Graph
 
-	- [Basic & Representation](10. Graph part 1.md)
+	- [Basic & Representation](10.%20Graph%20part%201.md)
 
-	- [Search & Shortest Paths](11. Graph part 2.md)
+	- [Search & Shortest Paths](11.%20Graph%20part%202.md)
 
-	- [Minimum Spanning Tree](12. Graph part 3.md)
+	- [Minimum Spanning Tree](12.%20Graph%20part%203.md)
