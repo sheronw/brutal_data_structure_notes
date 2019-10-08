@@ -3,7 +3,7 @@
 - [The List Interface](1. the List interface.md)
 
 
-- [Stack & Queue](2._Stack_&_Queue.md)
+- [Stack & Queue](2.&#32;Stack&#32;&&#32;Queue.md)
 
 
 - [Algorithm Analysis](3. Algorithms Analysis.md)
