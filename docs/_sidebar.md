@@ -1,9 +1,9 @@
 - [README](README.md)
 
-- [The List Interface](1. the List interface.md)
+- [The List Interface](1.%20the%20List%20interface.md)
 
 
-- [Stack & Queue](2.&#32;Stack&#32;&&#32;Queue.md)
+- [Stack & Queue](2.%20Stack%20&%20Queue.md)
 
 
 - [Algorithm Analysis](3. Algorithms Analysis.md)
