@@ -30,7 +30,6 @@
 - Graph
 
 	- [Basic & Representation](10.%20Graph%20part%201.md)
-
-	- [Search & Shortest Paths](11.%20Graph%20part%202.md)
-
+- [Search & Shortest Paths](11.%20Graph%20part%202.md)
 	- [Minimum Spanning Tree](12.%20Graph%20part%203.md)
+- [Sorting](13.%20Sorting.md)
