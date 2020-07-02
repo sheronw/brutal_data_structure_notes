@@ -1,6 +1,7 @@
 - [README](README.md)
-
-- [The List Interface](1.%20the%20List%20interface.md)
+- [How to Solve Problems in Interview](HowToSolve.md)
+- The List Interface
+  - [What is & Implementation](1.%20the%20List%20interface.md)
 
 
 - [Stack & Queue](2.%20Stack%20&%20Queue.md)
