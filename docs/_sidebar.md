@@ -2,6 +2,7 @@
 - [How to Solve Problems in Interview](HowToSolve.md)
 - The List Interface
   - [What is & Implementation](1.%20the%20List%20interface.md)
+  - [Solving Problems](1-solve.md)
 
 
 - [Stack & Queue](2.%20Stack%20&%20Queue.md)
