@@ -239,7 +239,56 @@ var partition = function(arr,l,r) {
 }
 ```
 
-我们可以再研究一下Heapify的方法：
+我们可以再研究一下Heapify的方法：堆有两个常见操作，`siftup`和`siftdown`。一般来说，`siftup`对较靠上的节点比较友好，因为离顶部更近，需要执行的次数更少；`siftdown`同理对靠下的节点更友好。建堆的时候因为要对每一个节点都操作，而肯定是下面的节点更多，所以我们倾向于`siftdown`。
+
+为了方便操作，和上一个算法相同，我们先把整个树遍历一遍放进数组里，这一步是O(n)。
+
+虽然我们可以这么直接对每一个节点进行`siftdown`，但叶节点，也就是最下面那一排不能再搞了，所以可以从倒数第二排开始逐个`siftdown`。因为每层的节点树就是个等比数列求和，自己画个图推导下得出`n/2-1`就是第一个非叶的index，我们可以从这里开始向前搞。
+
+至于对每个节点进行`siftdown`是O(n)而不是O(nlogn)的原因——刚刚有提到说最下面那排节点（占总节点的一半）都是不需要`siftup`的，那么需要执行的操作次数为0，再上面一排的节点数量是它的一半，操作次数为1。得到一个式子0×n/2+1×n/4+2×n/8+...这样就类似于那个泰勒级数了，最后求和的结果是n。
+
+最后一步，和上一个算法一样，如果有要求的话再把指针补上，也是O(n)。
+
+```javascript
+// suppose we need max heap
+var heapifyBinaryTree = function(root) {
+  // traversal & save to an array
+  let arr = [];
+  if(root) traverse(root,arr); // just use traverse function in method 1
+  
+  let start = Math.floor(arr.length/2)-1;
+  while(start>=0) {
+    siftdown(arr,start,end);
+    start--;
+  }
+  
+  // link the nodes together (the same as method 1)
+  for(let i=0; i<arr.length; i++) {
+    if (i*2+1<arr.length) arr[i].left = arr[i*2+1];
+    if (i*2+2<arr.length) arr[i].right = arr[i*2+2];
+  }
+  
+  return arr[0]; // not that necessary
+};
+
+var siftdown = function(arr,start) {
+  let cur = start;
+  let left = start*2+1;
+  let right = start*2+2;
+  leftval = left < arr.length ? arr[left] : NaN;
+  rightval = right < arr.length ? arr[right] : NaN;
+  if(leftval && leftval>arr[start]) start = left;
+  if (rightval && rightval>arr[start]) start = right;
+  if(start!=cur) {
+    let temp = arr[start];
+    arr[start] = arr[cur];
+    arr[cur] = temp;
+    siftdown(arr,start);
+  }
+};
+```
+
+
 
 ## 平衡二分搜索树
 
