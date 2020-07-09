@@ -1,40 +1,31 @@
 - [README](README.md)
-- [How to Solve Problems in Interview](HowToSolve.md)
-- The List Interface
-  - [What is & Implementation](1.%20the%20List%20interface.md)
-  - [Solving Problems](1-solve.md)
 
+- What Is & Implementation
 
-- [Stack & Queue](2.%20Stack%20&%20Queue.md)
+  - [The List Interface](1.%20the%20List%20interface.md)
 
+  - [Stack & Queue](2.%20Stack%20&%20Queue.md)
 
-- [Algorithm Analysis](3.%20Algorithms%20Analysis.md)
+  - [Algorithm Analysis](3.%20Algorithms%20Analysis.md)
 
+  - Tree
+    - [Basic & Binary Tree](5.%20Tree%20part%201.md)
+    - [Binary Search Tree & AVL Tree & Red Black Tree](6.%20Tree%20part%202.md)
+    - [B Tree & Trie & Huffman Tree](7.%20Tree%20part%203.md)
 
-- [Arithmetic Expression](4.%20Arithmetic%20expression.md)
+  - [Priority Queue](8.%20Priority%20Queue.md)
+  - [Hashing](9.%20Hashing.md)
+  - Graph
+    - [Basic & Representation](10.%20Graph%20part%201.md)
+    - [Search & Shortest Paths](11.%20Graph%20part%202.md)
+    - [Minimum Spanning Tree](12.%20Graph%20part%203.md)
+  - [Sorting](13.%20Sorting.md)
 
+- Solving Problems
 
-- Tree
-
-	- [Basic & Binary Tree](5.%20Tree%20part%201.md)
-	
-	- [Binary Search Tree & AVL Tree & Red Black Tree](6.%20Tree%20part%202.md)
-	
-	- [B Tree & Trie & Huffman Tree](7.%20Tree%20part%203.md)
-	
-	- [Solving Problems](5-solve.md)
-
-
-- [Priority Queue](8.%20Priority%20Queue.md)
-
-
-- [Hashing](9.%20Hashing.md)
-
-
-- Graph
-
-	- [Basic & Representation](10.%20Graph%20part%201.md)
-	- [Search & Shortest Paths](11.%20Graph%20part%202.md)
-	- [Minimum Spanning Tree](12.%20Graph%20part%203.md)
-	- [Solving Problems](10-solve.md)
-- [Sorting](13.%20Sorting.md)
+  - [How to Solve Problems in Interview](HowToSolve.md)
+  - [链表](1-solve.md)
+  - [数组和字符串](3-solve.md)
+  - [树](5-solve.md)
+  - [哈希表](9-solve.md)
+  - [图](10-solve.md)

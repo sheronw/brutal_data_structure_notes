@@ -15,17 +15,17 @@ for (m in movies) {
   for (let i=0;i<m.length;i++) {
     for (let j=i+1;j<m.length;j++) {
       if (!actors.has(m[i])) {
-        actors[m[i]] = {kb:-1, edges:new Set()};
+        actors.set(m[i], {kb:-1, edges:new Set());
       }
       if (!actors.has(m[j])) {
-        actors[m[j]] = {kb:-1, edges:new Set()};
+        actors.set(m[j], {kb:-1, edges:new Set());
       }
-      actors[m[i]].add(m[j]);
-      actors[m[j]].add(m[i]);
+      actors.get(m[i]).add(m[j]);
+      actors.get(m[j]).add(m[i]);
     }
   }
 }
-actors["Kevin Bacon"].kb = 0;
+actors.get("Kevin Bacon").kb = 0;
 ```
 
 然后是确定算法。一般来讲对于图不是用DFS就是用BFS，当然你也可以用Dijkstra，但因为我们图中的边没有赋值，其实直接在BFS上改动就可以了。至于为什么不用DFS，是因为DFS找到的可能不是最小距离，而只要保证BFS中的距离为`x`的节点都是最小值，那么向外延伸1一个边、距离为`x+1`的也是最小值。
@@ -34,16 +34,16 @@ actors["Kevin Bacon"].kb = 0;
 
 ```javascript
 let queue = [];
-let start = actors["Kevin Bacon"];
+let start = actors.get("Kevin Bacon");
 if（!start) throw "No actor named Kevin Bacon";
 queue.push(start);
 while(queue) {
   let cur = queue.shift();
   for (let a of cur.edges.entries()) {
-    if (actors[a].kb==-1) {
+    if (actors.get(a).kb==-1) {
       // unvisited
-      actors[a].kb=cur.kb + 1;
-      queue.push(actors[a]);
+      actors.get(a).kb=cur.kb + 1;
+      queue.push(actors.get(a));
     }
   }
 }
