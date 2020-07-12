@@ -203,3 +203,182 @@ var validUtf8 = function(data) {
 };
 ```
 
+## 二分搜索
+
+不解释了。
+
+递归：
+
+```javascript
+var search = function(nums, target) {
+    return helper(0,nums.length,nums,target);
+};
+
+var helper = function(start,end,nums,target) {
+    if(end>start) {
+        let mid = Math.floor(start+(end-start)/2);
+        if(nums[mid]==target) return mid;
+        else if(nums[mid]>target) return helper(start,mid,nums,target);
+        else return helper(mid+1,end,nums,target);
+    }
+    else return -1;
+};
+```
+
+遍历：
+
+```javascript
+var search = function(nums, target) {
+    let start = 0;
+    let end = nums.length;
+    while(true) {
+        if(end<=start) return -1;
+        let mid = Math.floor(start+(end-start)/2);
+        if(nums[mid]==target) return mid;
+        else if (nums[mid]>target) end = mid;
+        else start = mid + 1;
+    }
+    return -1;
+};
+```
+
+## 数组排列
+
+给定一个元素**各不相同**的整数数组，返回所有可能的排列。
+
+一般都是用DFS递归，速度上的差异和实现时用的方法有关。时间复杂度O(n!)。如果不想每次筛选，可以放一个数组来储存是否已经访问过。
+
+```javascript
+var permute = function(nums) {
+    if(nums.length<=1) return [nums];
+    let res = [];
+    for(let n of nums) {
+        let temp = permute(nums.filter(x=>x!=n));
+        temp.forEach(a => a.push(n));
+        res = res.concat([...temp]);
+    }
+    return res;
+};
+```
+
+还有一个进阶版，是给定一个元素**可能重复**的整数数组，返回所有可能的排列。
+
+如果要从上面的解中改动得到一个暴力算法的话，大概就是用filter筛选index而不是数字，然后再用set存起来查重。但毕竟转换来转换去的很麻烦，最好是寻求其他的方案。
+
+这个时候可以找个实例画画图找规律，你会发现在同一层级中（比如，第x个数组的元素的选择），选择相同的数字所得到的结果是一样的，比如第0个元素选了两个1中的任意一个，后面的其他元素的排列都是相同的，那么我们可以在遍历递归的时候只将1递归一次。如何保证在每个层级中不遍历重复的数字呢？方法其实有很多，比如新建一个数组或者Set标注是否重复过。有一个不需要外部存储的方法是将源数组排序，这样从第一个元素到最后一个元素一个一个遍历的时候，只要当前元素与上一个元素相等，那么就可以跳过该元素，在每次递归后写一个while loop将重复数字跳过即可。
+
+```javascript
+var permuteUnique = function(nums) {
+    if(nums.length<=1) return [nums];
+    nums.sort();
+    let res = [];
+    for(let i=0;i<nums.length;i++) {
+        let temp = permuteUnique(nums.filter((x,index)=>index!=i));
+        temp.forEach(a => a.push(nums[i]));
+        res = res.concat([...temp]);
+        while(nums[i+1]==nums[i]) i++;
+    }
+    return res;
+};
+```
+
+## 数组组合
+
+给定一个**各不相同**的整数数组，返回所有可能的排列。
+
+还是老样子，找个例子画图。一个可能的尝试是分别列出长度为1、2、3……n的组合，但并不是很好找规律。还有一种方式是列出以不同的数字为起始的组合，然后就会发现以每一个数字为开始的所有组合为这个数字加上其他所有现有数字的组合。以[1,2,3,4]为例：
+
+| 4    | 3    | 2    | 1    |
+| ---- | ---- | ---- | ---- |
+| 34   | 23   | 12   |      |
+| 234  | 123  |      |      |
+| 1234 | 13   |      |      |
+| 134  |      |      |      |
+| 24   |      |      |      |
+| 124  |      |      |      |
+| 14   |      |      |      |
+
+按照上表的规律写出代码：
+
+```javascript
+var combination = function(nums) {
+  let res = [];
+  for(let n of nums) {
+    res.push([n]);
+    let curres = [];
+    for(let x of res) {
+      let temp = x.slice();
+      temp.push(n);
+      curres.push(temp);
+    }
+    res = res.concat(curres);
+  }
+  return res;
+};
+```
+
+如果假设元素**可能重复**，那么要在每一个循环中确保不会出现重复。和排列一样，先排序，然后判断是否与上一个元素相同。如果相同的话虽然不跳过，但是可以和上一个元素（也就是说和他相同的元素）进行组合，原因是上一个元素已经和其他元素组合过了，所以不需要再来一次，并且这次不要添加这个元素本身。
+
+## 电话号码的字母组合
+
+这道题[领扣](https://www.lintcode.com/problem/letter-combinations-of-a-phone-number/description)上有。
+
+给一个不包含0和1的数字字符串，每个数字代表一个字母，返回其所有可能的九宫格按键字母组合。
+
+首先，为了方便起见，我们可以写一个 helper function 来获取九宫格键盘对应的字母：
+
+<del>PIE很贴心，把所有按键都搞成仨字母的了，然后发现领扣的题里面7和9是四个字母（。</del>
+
+```javascript
+	/**
+   * Recursively get the minimum value in the tree.
+   * @param {number} the number on the key
+   * @param {number} 1st, 2nd or 3rd letter of the key
+   * @return {String} corresponding letter
+   */
+var getCharKey = function(keyStr, place) {
+  let key = parseInt(keyStr);
+  let charCode = 0;
+  if (key<=6) charCode = 96+(key-2)*3+place;
+  if (key==7) charCode = 111+place;
+  if (key==8) charCode = 115+place;
+  if (key==9) charCode = 118+place;
+  return String.fromCharCode(charCode);
+};
+```
+
+老样子，以23为例，就会发现和刚刚的题目是类似的：
+
+| 2    | 3    |
+| ---- | ---- |
+| A    | AA   |
+| B    | AB   |
+| C    | AC   |
+|      | BA   |
+|      | BB   |
+|      | BC   |
+|      | CA   |
+|      | CB   |
+|      | CC   |
+
+对每一按键，在上一个按键的基础上每个数组分别加这个按键的仨字母就可以了。按键顺序是固定的，没有查重的必要。
+
+```javascript
+var letterCombinations = function (digits) {
+    let res = [];
+    if (!digits) return res;
+    res.push("");
+    for(let i=0; i<digits.length; i++) {
+        let temp = [];
+        for(let j=1; j<4; j++) {
+            for(let e of res) temp.push(e.concat(getCharKey(digits[i],j)));
+        }
+        if(digits[i]=="7" || digits[i]=="9"){
+            for(let e of res) temp.push(e.concat(getCharKey(digits[i],4)));
+        }
+        res = temp.slice();
+    }  
+    return res;
+};
+```
+
