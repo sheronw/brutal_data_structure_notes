@@ -363,6 +363,8 @@ var getCharKey = function(keyStr, place) {
 
 对每一按键，在上一个按键的基础上每个数组分别加这个按键的仨字母就可以了。按键顺序是固定的，没有查重的必要。
 
+一个很好的「炫技」方式是，告诉面试官每个长度的字符串会有多少可能，呃就是3<sup>n</sup>呗。算法的时间复杂度也是它。
+
 ```javascript
 var letterCombinations = function (digits) {
     let res = [];
@@ -380,5 +382,20 @@ var letterCombinations = function (digits) {
     }  
     return res;
 };
+```
+
+还有一种解法，和咱这个考虑方式正好反过来了，所以我有点不好理解，这里说下思路：首先创建一个place全为第一个的情况，然后搞一个while true的循环，每一次循环都print一个数，然后里面再搞一个for循环看不停将里面的每一个字母从第一个到最后一个逐渐替换为place中的第二个、第三个然后手动break。
+
+```
+create a model string, all using place 1
+init result list
+while true:
+	add string to the list
+	for iterate from the last element to the first:
+		if element in place 0, we got the end and just return result
+		if element in place 4, change it to place 1 and continue
+		if element in place 3, change it to place 1 and continue (change to 4 for key 7&9)
+		if element in place 2, change it to place 3 and break
+		if element in place 1, change it to place 2 and break
 ```
 
