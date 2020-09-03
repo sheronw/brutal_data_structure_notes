@@ -59,7 +59,7 @@ var myAtoi = function (str) {
   let start = -1;
   let end = -1;
   let isNeg = undefined;
-  while ((str[index] == " ") & (index < str.length)) {
+  while ((str[index] == " ") && (index < str.length)) {
     index++;
   }
   while (index < str.length) {

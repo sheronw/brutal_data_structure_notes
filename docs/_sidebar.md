@@ -23,9 +23,14 @@
 
 - Solving Problems
 
-  - [How to Solve Problems in Interview](HowToSolve.md)
-  - [链表](1-solve.md)
-  - [数组和字符串](3-solve.md)
-  - [树](5-solve.md)
-  - [哈希表](9-solve.md)
-  - [图](10-solve.md)
+  - [How to Solve Problems in Interview](s0-HowToSolve.md)
+  - [链表](s1-linkedList.md)
+  - [数组和字符串](s2-array.md)
+  - [树](s3-tree.md)
+  - [哈希表](s4-hashing.md)
+  - [图](s5-graph.md)
+  - [排序](s6-sorting.md)
+
+- Special Algs
+
+  - [Binary Indexed Tree](binary-indexed-tree.md)
