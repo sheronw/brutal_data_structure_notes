@@ -2,7 +2,7 @@
 
 之前没做过这个类型的题目，感觉小看二分查找这个知识点了，坑还是蛮多的。
 
-以下题目列表是用的是(花花酱)[https://zxi.mytechroad.com/blog/leetcode-problem-categories/]的分类。
+以下题目列表是用的是 [花花酱](https://zxi.mytechroad.com/blog/leetcode-problem-categories/) 的分类。
 
 ## 基本的二分查找
 
