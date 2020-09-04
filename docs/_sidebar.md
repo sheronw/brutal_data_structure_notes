@@ -30,6 +30,7 @@
   - [哈希表](s4-hashing.md)
   - [图](s5-graph.md)
   - [排序](s6-sorting.md)
+  - [二分搜索](s7-binarySearch.md)
 
 - Special Algs
 
