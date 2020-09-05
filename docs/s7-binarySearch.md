@@ -44,6 +44,21 @@ def binarySearch(arr,target):
 
 因为模板找的是第一个大于或等于 target 的元素，所以如果 target 不存在，就会返回错误结果。所以可以再加一个判断条件，如果等于目标就返回当前座标，或者在最后查是否边界溢出以及等于 target。最后返回-1 即可。
 
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        l, r = 0, len(nums) # 前闭后开原则
+        while l < r: # 搜索至搜索区间为空
+            mid = l + (r - l) // 2 # 以闭区间起点为中心进行调整防止溢出
+            if nums[mid] < target: # 调整区间，确保区间左侧元素都小于区间内元素
+                l = mid + 1
+            elif nums[mid]==target:
+                return mid
+            else: # 调整区间，确保区间右侧元素都大于或等于区间内元素
+                r = mid
+        return -1 # 当搜索区间为空时，l与r相等
+```
+
 ### LC35 Search Insert Position
 
 本题要求返回 target 座标，不存在就返回 target 应该插入的座标。
@@ -62,6 +77,36 @@ def binarySearch(arr,target):
 
 也可以找到其中一个端点然后向后或者向前找，但最坏情况下时间复杂度为 O(n)，不推荐。
 
+```python
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        # 搜索第一个大于等于目标的元素
+        l, r = 0, len(nums) # 前闭后开原则
+        while l < r: # 搜索至搜索区间为空
+            mid = l + (r - l) // 2 # 以闭区间起点为中心进行调整防止溢出
+            if nums[mid] < target: # 调整区间，确保区间左侧元素都小于区间内元素
+                l = mid + 1
+            else: # 调整区间，确保区间右侧元素都大于或等于区间内元素
+                r = mid
+        p1 = l
+        if l<0 or l>=len(nums) or nums[l]!=target:
+            p1 = -1
+
+        # 搜索最后一个不大于目标的元素
+        l, r = 0, len(nums) # 前闭后开原则
+        while l < r: # 搜索至搜索区间为空
+            mid = l + (r - l) // 2 # 以闭区间起点为中心进行调整防止溢出
+            if nums[mid] <= target: # 调整区间，确保区间左侧元素都小于区间内元素
+                l = mid + 1
+            else: # 调整区间，确保区间右侧元素都大于或等于区间内元素
+                r = mid
+        l -= 1
+        p2 = l # 当搜索区间为空时，l与r相等
+        if l<0 or l>=len(nums) or nums[l]!=target:
+            p2 = -1
+        return [p1,p2]
+```
+
 ### LC981 Time Based Key-Value Store
 
 带点 OOP 元素的二分查找。set 与 LC35 相同，get 则是找不大于 target 的最后一个元素。不过要判断字典中是否存在该元素等一系列条件。
@@ -73,6 +118,29 @@ def binarySearch(arr,target):
 这题要的是开根号结果的 floor，也就是说求的是最后一个不大于目标的元素。
 
 不过如果按照模板实现的话，因为我们将开区间范围设定为 x，所以需要将 1（它的根号还是它自己，取中点永远得不到）。
+
+```python
+class Solution(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        if x<2:
+            return x
+
+        l = 1
+        r = x
+        while l<r:
+            mid = l+(r-l)//2
+            if mid*mid<x:
+                l = mid + 1
+            elif mid*mid>x:
+                r = mid
+            else:
+                return mid
+        return l-1
+```
 
 ## 猜答案类题目
 
@@ -92,6 +160,24 @@ def binarySearch(arr,target):
 
 想像针对每一个可能的 `k` 计算出的 `H` 的数组，你会发现这个很有可能是递减的，因此需要在传统的二分搜索基础上做一些修改。我们想要得到的最优 `k` 是这个递减的数组里第一个小于或等于 `H` 的元素，所以要保证区间左侧元素大于`Ｈ`，`if`条件为大于。
 
+```python
+class Solution(object):
+    def minEatingSpeed(self, piles, H):
+        l,r = 1, max(piles)+1
+        while l<r:
+            mid = l+(r-l)//2
+            count = 0
+            for p in piles:
+                if p%mid!=0:
+                    count+=1
+                count += p//mid
+            if count<=H:
+                r = mid
+            else:
+                l = mid + 1
+        return l
+```
+
 ### LC1011 Capacity To Ship Packages Within D Days
 
 给定一个数组，每次操作清空一个或多个元素，但有一个固定上限`w`，并且要按序操作，不能跳过。要求能够在`D`次操作后清空数组的`w`最小值。
@@ -101,6 +187,39 @@ def binarySearch(arr,target):
 假设已知`w`，如何计算`D`？显然需要`O(n)`的复杂度遍历每一个元素，记录当前已经添加的货物和所需的操作次数。边界条件仍然注意最后一次操作的所有值可能不到`w`。
 
 针对`w`计算出的`D`仍然是递减的，类似于上一道题，`if`条件为大于。
+
+```python
+class Solution(object):
+    def shipWithinDays(self, weights, D):
+        m = max(weights)
+        l,r = 1, sum(weights)
+        while l<r:
+            mid = l + (r-l)//2
+            if mid<m:
+                # cannot take this
+                l = mid + 1
+                continue
+            days = 0
+            cur = 0
+            # calculate if capacity is mid then we need how many days
+            for w in weights:
+                if w+cur<mid:
+                    cur += w
+                elif w+cur>mid:
+                    cur = w
+                    days += 1
+                else:
+                    days += 1
+                    cur = 0
+            if cur!=0:
+                days += 1
+
+            if days<=D:
+                r = mid
+            else:
+                l = mid + 1
+        return l
+```
 
 ## kth element 类题目
 
@@ -118,6 +237,32 @@ Sorted Matrix 指的是一个矩阵，每行从左到右排序，每列上到下
 
 总的时间复杂度是`O(nlogn^2)`。
 
+```python
+class Solution(object):
+    def kthSmallest(self, matrix, k):
+        if len(matrix)==0:
+            return -1
+        n = len(matrix)
+        l,r = matrix[0][0], matrix[n-1][n-1]+1
+        while l<r:
+            mid = l + (r - l) // 2
+            res = self.countsmaller(matrix,mid)
+            if res < k:
+                l = mid + 1
+            else:
+                r = mid
+        return l
+
+    def countsmaller(self,matrix,mid):
+        res = 0
+        for i in range(len(matrix)):
+            j = 0
+            while j<len(matrix) and matrix[i][j]<=mid:
+                j += 1
+                res += 1
+        return res
+```
+
 ### LC668 Kth Smallest Number in Multiplication Table
 
 给定乘法表的行列`m`和`n`，求乘法表中第 k 小的元素。
@@ -127,6 +272,28 @@ Sorted Matrix 指的是一个矩阵，每行从左到右排序，每列上到下
 如何计算多少个元素比中点值小或等于呢？这次的优势是，在`m`行中，第`i`行的元素其实就是`i`乘以`[1,2,3,...,n]`，那么我们只需要看看这个中点值除以 `m`的值是多少就知道了。这样数完`m`行的时间复杂度就是`O(m)`。
 
 总的时间复杂度是`O(mlogm*n)`。
+
+```python
+class Solution(object):
+    def findKthNumber(self, m, n, k):
+        l, r = 1, m*n+1
+        while l<r:
+            mid = l + (r-l)//2
+            # count how many elements are smaller or equal than mid
+            count = 0
+            for i in range(1,min(m+1,mid+1)):
+                # scan row by row, from 1 to m
+                t = mid//i
+                count += min(t,n)
+                if count >= k:
+                    break
+            # binary search check
+            if count>=k:
+                r = mid
+            else:
+                l = mid + 1
+        return l
+```
 
 ### LC719 Find K-th Smallest Pair Distance
 
@@ -140,6 +307,31 @@ Sorted Matrix 指的是一个矩阵，每行从左到右排序，每列上到下
 
 时间复杂度是`O(nlog(max(arr)-min(arr)))`和`O(nlogn)`里面比较大的那个。
 
+```python
+class Solution:
+    def smallestDistancePair(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        n = len(nums)
+        # we know len(nums)>=2
+        l, r = 0, nums[-1]-nums[0]
+        while l<=r:
+            mid = l + (r-l) // 2
+            # calculate how many elements is less or equal than mid
+            res = 0
+            j = 0
+            for i in range(0,n):
+                # skip until [j]-[i] is greater than mid
+                while j<n and nums[j]-nums[i] <= mid:
+                    j += 1
+                # update answer
+                res += j-i-1
+            if res >= k:
+                r = mid - 1
+            else:
+                l = mid + 1
+        return l
+```
+
 当然这道题还可以用桶排序，也是因为最大值最小值已知。建桶 O(n<sup>2</sup>)读取 O(k)。
 
 ### LC786 K-th Smallest Prime Fraction
@@ -151,6 +343,40 @@ Sorted Matrix 指的是一个矩阵，每行从左到右排序，每列上到下
 还是那个样子，排个序再说。排序之后构建一个类似于乘法表的矩阵，每行对分子相同每列分母相同这样。这个数组只有一半，而且从左到右递减，从下到上递减。
 
 求有多少个元素小于或等于，可以参考 sorted matrix 的做法，根据条件判断跳过这一行或这一列，最后也是 `O(n)`。
+
+```python
+class Solution:
+    def kthSmallestPrimeFraction(self, A: List[int], K: int) -> List[int]:
+        n = len(A)
+        l, r = 0.0, 1.0
+        while l<r:
+            mid = (l+r)/2
+            # calculate how many fractions are >= mid
+            res = 0
+            p, q, f = 0, 0, 0.0
+            j = 1
+            for i in range(n-1):
+                # skip numbers that are > mid
+                while j<n and A[i] > mid*A[j]:
+                    j += 1
+                # out of boundary
+                if j>=n:
+                    break
+                res += (n-j)
+                # update res
+                if A[i]/A[j] > f:
+                    p = i
+                    q = j
+                    f = A[i]/A[j]
+            if res == K:
+                return [A[p],A[q]]
+            elif res > K:
+                # number is large
+                r = mid
+            else:
+                l = mid
+        return []
+```
 
 ## 两个数组中的中位数
 
@@ -181,6 +407,43 @@ arr = [1,2,3,4,5,6,7]
 那么我们可以根据这个特点进行二分搜索，直到找到第一个数作为左侧尾数，使得它大于或等于另外一个数组中需要取出的左侧尾数。
 
 思路就是这样，但各种边界条件很恶心，还要分类讨论奇数偶数长度的中位数，需要多加复习。
+
+```python
+class Solution(object):
+    def findMedianSortedArrays(self, nums1, nums2):
+        k = (len(nums1)+len(nums2)+1)//2
+        # always use the smaller list to do binary search
+        if len(nums1)>len(nums2):
+            nums1, nums2 = nums2, nums1
+        l, r = 0, len(nums1)
+        while l < r:
+            mid1 = l + (r-l)//2
+            mid2 = k-mid1-1 # there should be k items in total including mid1 & mid2
+            if nums1[mid1]<nums2[mid2]:
+                # need to seek more element in the first list
+                l = mid1 + 1
+            else:
+                r = mid1
+        # l is how many we need to take in mid1
+        t1 = l-1
+        t2 = k-l-1
+        if (len(nums1)+len(nums2))%2==1:
+            # if total length is odd, just return the larger one
+            # deal with special case
+            if t1<0:
+                return nums2[t2]
+            if t2<0:
+                return nums1[t1]
+            return max(nums1[t1],nums2[t2])
+        else:
+            # if total length is even
+            # we need to find the next element in the two lists
+            # and find the two middle element's average
+            # we also need to check boundary
+            less = max(nums1[t1] if t1>=0 else float("-inf"),nums2[t2] if t2>=0 else float("-inf"))
+            more = min(nums1[t1+1] if t1+1<len(nums1) else float("inf"),nums2[t2+1] if t2+1<len(nums2) else float("inf"))
+            return float(less+more)/2
+```
 
 ## rotated 与 peek 类题目
 
@@ -230,6 +493,24 @@ rotated 的特点是，数组大致上是排列好的，除了某一个部分出
 判断递增递减，第一反应可能是像做 rotated 类题目一样，比较端点大小，可是左边不管是纯递增还是先递增再递减，看两个端点都一样，啊这……
 
 不过，「先递增再递减」这个倒是可以判断。假设左边先递增再递减，那右边只能递减了，所以`arr[mid]>arr[mid+1]`搜左边；右边先递增再递减，说明左边只能递增，所以`arr[mid]<arr[mid+1]`。然后我们可以用这个不断缩小搜索范围，直到最后返回 l 即可。
+
+```python
+class Solution(object):
+    def findPeakElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        l,r = 0, len(nums)-1
+        while l<r:
+            mid = l+(r-l)//2
+            if nums[mid]>nums[mid+1]:
+                # go down
+                r = mid
+            else:
+                l = mid + 1
+        return l
+```
 
 ## 参考资料
 

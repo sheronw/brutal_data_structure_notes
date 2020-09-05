@@ -34,4 +34,5 @@
 
 - Special Algs
 
-  - [Binary Indexed Tree](binary-indexed-tree.md)
+  - [Binary Indexed Tree](t1-binary-indexed-tree.md)
+  - [Disjoint Set](t2-disjoint-set.md)
