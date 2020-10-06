@@ -31,6 +31,7 @@
   - [图](s5-graph.md)
   - [排序](s6-sorting.md)
   - [二分搜索](s7-binarySearch.md)
+  - [最长递增子序列](s8-longest-increasing-subsequence.md)
 
 - Special Algs
 
