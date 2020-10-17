@@ -119,7 +119,7 @@ class Solution:
 
         def find(self, x):
             if x != self.parent[x]:
-                self.parent[x] = self.find(self.aprent[x])
+                self.parent[x] = self.find(self.parent[x])
             return self.parent[x]
 
         def union(self, x, y):
@@ -163,6 +163,105 @@ class Solution:
             # update answer
             res.append(ds.getCount())
         return res
+```
+
+## Evaluate Division
+
+## description
+
+LC 399，简单来说就是给你一串`a/b=4.5`这样的输入，然后还有一串`c/d`之类的查询，让你返回所有查询结果，要是找不到就返回-1。这个和岛数一样也是个图类的题，因为你要考虑连起来的可能比如`a / b = (a / x) * (x / y) * (y / b)`。因为输入全部合法，所以从 a 到 b 的距离结果是唯一的，所以 BFS 和 DFS 都能做。建图就是把每个 variable 做为节点，然后比值作为他们俩之间的 edge 就行。
+
+一个变相表述方式是货币兑换。做法完全相同。
+
+You are given an array of variable pairs equations and an array of real numbers values, where equations[i] = [Ai, Bi] and values[i] represent the equation Ai / Bi = values[i]. Each Ai or Bi is a string that represents a single variable.
+
+You are also given some queries, where queries[j] = [Cj, Dj] represents the jth query where you must find the answer for Cj / Dj = ?.
+
+Return the answers to all queries. If a single answer cannot be determined, return -1.0.
+
+Note: The input is always valid. You may assume that evaluating the queries will not result in division by zero and that there is no contradiction.
+
+## BFS 解法
+
+```python
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        # build graph
+        dic = {}
+        l = len(equations)
+        for i in range(l):
+            a,b = equations[i]
+            if a not in dic:
+                dic[a] = []
+            dic[a].append((b,values[i]))
+            if b not in dic:
+                dic[b] = []
+            dic[b].append((a,1/values[i]))
+        # do search for each queries
+        return [self.bfs(q[0],q[1],dic) for q in queries]
+
+    def bfs(self,a,b,dic):
+        if a not in dic or b not in dic:
+            return -1
+        if a==b:
+            return 1
+        q = deque([(a,1)])
+        visited = set([a])
+        while q:
+            cur,val = q.popleft()
+            if b==cur:
+                return val
+            for n,div in dic[cur]:
+                if n not in visited:
+                    q.append((n,div*val))
+                    visited.add(n)
+        return -1
+```
+
+## 并查集算法
+
+其实这个并查集和刚试过的 BFS 在数据量比较小的情况下没有什么显著的区别，但数据量大的时候更方便一些。
+
+我们需要在原本的那个 DisjointSet 做一些改动，首先 rank 可以删掉了，因为我们将两个树并在一起的时候是有方向的，因为`x/y`和`y/x`代表的意义不同，所以根据这个来 union 即可。
+
+然后 parent 的数据结构可以根据我们之前 BFS 时的情况使用字典，但字典里没有像列表那样初始化，所以需要在 find 最前面检查是否为空并初始化（也可以使用字典中的函数`setdefault()`）。至于 parent 的定义，以`x/y`为例，我们规定分母 y 为 parent，倒过来也不是不可以，但需要在算值的时候颠倒一下。
+
+因此，在 find 中，算新的节点和 root 的比例关系的时候，直接相乘，比如`D/B`和`B/A`相乘，得到的是`D/A`，而 A 是 D 的 root。在 union 中，如果两个元素隶属于同一个 root，比如`D/A`和`C/A`，他们有 A 这个共同 parent，那么如果求`D/C`,就用`D/A`除以`C/A`，所以是相除。画个图就行了。
+
+参考[这一篇答案](<https://leetcode.com/problems/evaluate-division/discuss/270993/Python-BFS-and-UF(detailed-explanation)>)，将添加与查找合并同时合并到 union 函数中，如果附带 value 就添加（并且不返回结果），否则算作查找并返回结果。
+
+```python
+class DisjointSet:
+    def __init__(self):
+        self.parent = {}
+
+    def find(self, x):
+        if x not in self.parent:
+            # default for x/x
+            self.parent[x] = (x,1.0)
+        if x != self.parent[x][0]:
+            p, v = self.find(self.parent[x][0])
+            self.parent[x] = (p,v*self.parent[x][1])
+        return self.parent[x]
+
+    def union(self, x, y, v):
+        rx, rxv, ry, ryv = *self.find(x), *self.find(y)
+        # in this situation, is x/y, and we need x to be y's parent?
+        if not v:
+            # if we want to find a value just return
+            return rxv/ryv if rx==ry else -1.0
+        if rx!=ry:
+            # set up only when the root is different
+            self.parent[rx] = (ry, ryv/rxv*v)
+
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        s = DisjointSet()
+        for i in range(len(equations)):
+            a,b = equations[i]
+            v = values[i]
+            s.union(a,b,v)
+        return [s.union(x,y,0) if x in s.parent and y in s.parent else -1.0 for x,y in queries]
 ```
 
 ## 参考资料
