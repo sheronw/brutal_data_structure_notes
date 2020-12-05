@@ -20,7 +20,7 @@ class DisjointSet:
 
     def find(self, x):
         if x != self.parent[x]:
-            self.parent[x] = self.find(self.aprent[x])
+            self.parent[x] = self.find(self.parent[x])
         return self.parent[x]
 
     def union(self, x, y):

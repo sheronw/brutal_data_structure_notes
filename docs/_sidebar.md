@@ -12,7 +12,7 @@
     - [Basic & Binary Tree](5.%20Tree%20part%201.md)
     - [Binary Search Tree & AVL Tree & Red Black Tree](6.%20Tree%20part%202.md)
     - [B Tree & Trie & Huffman Tree](7.%20Tree%20part%203.md)
-    - [Binary Indexed Tree](binary-indexed-tree.md)
+    - [Binary Indexed Tree](t1-binary-indexed-tree.md)
   - [Priority Queue](8.%20Priority%20Queue.md)
   - [Hashing](9.%20Hashing.md)
   - Graph
